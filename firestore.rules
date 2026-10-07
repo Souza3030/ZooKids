@@ -1,0 +1,29 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isAdmin() {
+      return request.auth != null
+        && request.auth.token.email == 'acessozookids@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    match /orders/{orderId} {
+      allow create: if request.auth != null
+        && request.resource.data.keys().hasOnly(['customerName', 'items', 'status', 'source', 'createdAt'])
+        && request.resource.data.keys().hasAll(['customerName', 'items', 'status', 'source', 'createdAt'])
+        && request.resource.data.customerName is string
+        && request.resource.data.customerName.size() >= 2
+        && request.resource.data.customerName.size() <= 80
+        && request.resource.data.items is list
+        && request.resource.data.items.size() > 0
+        && request.resource.data.items.size() <= 40
+        && request.resource.data.status == 'novo'
+        && request.resource.data.source == 'site'
+        && request.resource.data.createdAt == request.time;
+      allow read, delete: if isAdmin();
+      allow update: if isAdmin()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status'])
+        && request.resource.data.status in ['novo', 'em_atendimento', 'concluido', 'cancelado'];
+    }
+  }
+}
