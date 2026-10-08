@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type FormEvent } from "react";
 import {
+  createUserWithEmailAndPassword,
   onAuthStateChanged,
   reload,
   sendEmailVerification,
@@ -53,6 +54,7 @@ export default function AdminPanel() {
   const [verified, setVerified] = useState(false);
   const [email, setEmail] = useState(adminEmail);
   const [password, setPassword] = useState("");
+  const [creatingAccount, setCreatingAccount] = useState(false);
   const [orders, setOrders] = useState<Order[]>([]);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
@@ -118,6 +120,33 @@ export default function AdminPanel() {
     } catch {
       setMessage(
         "Não foi possível entrar. Confira o e-mail, a senha e o Firebase Authentication.",
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleCreateAccount(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!auth) return;
+    if (password.length < 12) {
+      setMessage("Escolha uma senha nova com pelo menos 12 caracteres.");
+      return;
+    }
+    setLoading(true);
+    setMessage("");
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        adminEmail,
+        password,
+      );
+      setPassword("");
+      await sendEmailVerification(result.user);
+      setMessage("Enviamos um link de verificação para o seu e-mail.");
+    } catch {
+      setMessage(
+        "Não foi possível criar a conta. Se ela já existe, entre com a senha ou recupere o acesso no Firebase Console.",
       );
     } finally {
       setLoading(false);
@@ -207,19 +236,27 @@ export default function AdminPanel() {
               <ShieldCheck size={19} /> Acesso protegido
             </div>
           </div>
-          <form className="admin-login-card" onSubmit={handleLogin}>
+          <form
+            className="admin-login-card"
+            onSubmit={creatingAccount ? handleCreateAccount : handleLogin}
+          >
             <span className="card-icon">
               <Mail size={23} />
             </span>
-            <h2>Entrar no painel</h2>
-            <p>Use a conta administrativa cadastrada no Firebase.</p>
+            <h2>{creatingAccount ? "Criar acesso" : "Entrar no painel"}</h2>
+            <p>
+              {creatingAccount
+                ? "Use uma senha nova e confirme o link enviado ao e-mail administrativo."
+                : "Use a conta administrativa cadastrada no Firebase."}
+            </p>
             <label htmlFor="admin-email">E-mail</label>
             <input
               id="admin-email"
               type="email"
-              value={email}
+              value={creatingAccount ? adminEmail : email}
               onChange={(event) => setEmail(event.target.value)}
               required
+              readOnly={creatingAccount}
               autoComplete="username"
             />
             <label htmlFor="admin-password">Senha</label>
@@ -229,7 +266,8 @@ export default function AdminPanel() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
               required
-              autoComplete="current-password"
+              minLength={creatingAccount ? 12 : undefined}
+              autoComplete={creatingAccount ? "new-password" : "current-password"}
             />
             {message && (
               <p className="form-message" role="alert">
@@ -237,7 +275,26 @@ export default function AdminPanel() {
               </p>
             )}
             <button className="button button-dark full" disabled={loading}>
-              {loading ? "Entrando..." : "Entrar"} <ArrowUpRight size={18} />
+              {loading
+                ? creatingAccount
+                  ? "Criando..."
+                  : "Entrando..."
+                : creatingAccount
+                  ? "Criar conta"
+                  : "Entrar"}{" "}
+              <ArrowUpRight size={18} />
+            </button>
+            <button
+              type="button"
+              className="admin-mode-toggle"
+              disabled={loading}
+              onClick={() => {
+                setCreatingAccount((current) => !current);
+                setPassword("");
+                setMessage("");
+              }}
+            >
+              {creatingAccount ? "Já tenho acesso" : "Primeiro acesso? Criar conta"}
             </button>
           </form>
         </main>
