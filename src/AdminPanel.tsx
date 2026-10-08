@@ -30,6 +30,7 @@ import {
   ShoppingBag,
 } from "lucide-react";
 import { adminEmail, auth, db, firebaseConfigured } from "./firebase";
+import { verificationErrorMessage } from "./authMessages";
 import type { Order, OrderStatus } from "./orders";
 
 const statusLabels: Record<OrderStatus, string> = {
@@ -142,8 +143,12 @@ export default function AdminPanel() {
         password,
       );
       setPassword("");
-      await sendEmailVerification(result.user);
-      setMessage("Enviamos um link de verificação para o seu e-mail.");
+      try {
+        await sendEmailVerification(result.user);
+        setMessage("Enviamos um link de verificação para o seu e-mail.");
+      } catch (error) {
+        setMessage(verificationErrorMessage(error));
+      }
     } catch {
       setMessage(
         "Não foi possível criar a conta. Se ela já existe, entre com a senha ou recupere o acesso no Firebase Console.",
@@ -176,8 +181,8 @@ export default function AdminPanel() {
     try {
       await sendEmailVerification(user);
       setMessage("Enviamos um link de verificação para o seu e-mail.");
-    } catch {
-      setMessage("Não foi possível enviar o e-mail de verificação agora.");
+    } catch (error) {
+      setMessage(verificationErrorMessage(error));
     } finally {
       setLoading(false);
     }
@@ -328,6 +333,13 @@ export default function AdminPanel() {
               disabled={loading}
             >
               <RefreshCw size={16} /> Já verifiquei
+            </button>
+            <button
+              className="button button-outline"
+              onClick={() => auth && signOut(auth)}
+              disabled={loading}
+            >
+              <LogOut size={16} /> Sair
             </button>
           </div>
         </main>
