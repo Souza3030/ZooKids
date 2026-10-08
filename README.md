@@ -11,7 +11,9 @@ npm ci
 npm run dev
 ```
 
-Abra a URL mostrada pelo Vite. Para rodar os testes, verificar a tipagem e gerar a versão de produção:
+Abra a URL mostrada pelo Vite (normalmente `http://localhost:5173/`). Para abrir o painel administrativo, acrescente `#admin` ao final dessa URL: `http://localhost:5173/#admin`. Se o site estiver publicado, use o endereço público do site com `#admin` ao final, por exemplo `https://seu-site.com/#admin`. O endereço do repositório GitHub não é o site em execução.
+
+Para rodar os testes, verificar a tipagem e gerar a versão de produção:
 
 ```bash
 npm run typecheck
@@ -26,7 +28,7 @@ A configuração pública do aplicativo web do projeto `zookids-95d7f` já está
 1. No [Firebase Console](https://console.firebase.google.com/), abra o projeto `zookids-95d7f` e crie o banco Cloud Firestore, se ainda não existir.
 2. Em Authentication, ative os provedores **Anônimo** (clientes) e **E-mail/senha** (administração).
 3. No menu Firestore Database → **Regras**, substitua o conteúdo pelas regras de `firestore.rules` e clique em **Publicar**. Se usar Firebase CLI, execute `npx firebase-tools deploy --only firestore:rules --project zookids-95d7f` depois de autenticar com a sua conta. As regras permitem criar pedidos a usuários autenticados e ler/alterar o status apenas à conta administrativa verificada.
-4. Entre em `/#admin` e clique em **Primeiro acesso? Criar conta**. Cadastre `acessozookids@gmail.com` com uma **senha nova**, de pelo menos 12 caracteres, e confirme o link recebido por e-mail. Também é possível criar essa conta pelo Firebase Authentication e depois entrar no painel. A senha enviada na conversa não foi salva no projeto e não deve ser reutilizada. Somente a conta com esse e-mail verificado pode ler pedidos pelas regras do Firestore.
+4. Abra o painel pelo endereço explicado acima e clique em **Primeiro acesso? Criar conta**. O e-mail `acessozookids@gmail.com` já estará preenchido; escolha uma **senha nova**, de pelo menos 12 caracteres, e confirme o link recebido por e-mail. Depois, volte ao painel e clique em **Já verifiquei**. Também é possível criar essa conta pelo Firebase Authentication e depois entrar no painel. A senha enviada na conversa não foi salva no projeto e não deve ser reutilizada. Somente a conta com esse e-mail verificado pode ler pedidos pelas regras do Firestore.
 5. Se hospedar o site em outro domínio, adicione-o aos domínios autorizados do Authentication. Não coloque senha ou chave privada nas variáveis `VITE_FIREBASE_*`.
 
 O fluxo da compra é: carrinho no navegador → registro do pedido no Firestore → WhatsApp `+55 81 99371-2933` com o número e os itens do pedido. O painel `/#admin` mostra pedidos em tempo real e permite mudar o status. O site não processa pagamento. Tamanhos, disponibilidade e valores são combinados no atendimento.
