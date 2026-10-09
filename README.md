@@ -37,9 +37,9 @@ O fluxo da compra é: carrinho no navegador → registro do pedido no Firestore 
 
 ## Catálogo e imagens
 
-Os 12 produtos em `src/catalog.ts` são um catálogo inicial **ilustrativo**. Os nomes adicionais, descrições, preços e disponibilidade precisam ser revisados antes da divulgação. A imagem da página inicial em `public/loja-infantil.webp` foi gerada para representar uma loja fictícia, e está identificada como ilustrativa no site.
+Os 12 produtos em `src/catalog.ts` são um catálogo inicial **ilustrativo**. Todas as imagens de peças em `public/catalogo` foram geradas a partir do estilo da referência enviada; elas **não são fotos do estoque real**. A marca em `public/zookids-logo.png` foi recriada a partir da imagem da Zoo Kids enviada no chat. A imagem da página inicial em `public/loja-infantil.webp` representa uma loja fictícia e também está identificada como ilustrativa.
 
-As fotos de produtos e a logo enviadas no chat não foram disponibilizadas como arquivos. Para mostrar as cinco fotos mencionadas anteriormente, coloque-as em `public/fotos` com os nomes indicados em [`public/fotos/ADICIONE-AS-FOTOS-AQUI.txt`](public/fotos/ADICIONE-AS-FOTOS-AQUI.txt). Os outros produtos exibem imagens de substituição até receberem fotos.
+Antes de divulgar ou aceitar pedidos, confirme nomes, estampas, tamanhos, preços e disponibilidade com o estoque. Para trocar uma imagem gerada por uma foto real, coloque a foto em `public/fotos`, altere o campo `image` do produto em `src/catalog.ts` e remova o campo `imageTile` desse produto.
 
 ## Segurança
 

@@ -155,17 +155,18 @@ img {
   flex: none;
 }
 .brand-icon {
-  width: 42px;
-  height: 42px;
+  width: 48px;
+  height: 48px;
   display: grid;
   place-items: center;
-  border-radius: 13px;
-  color: #fff;
-  background: #ee9aab;
-  transform: rotate(-8deg);
+  overflow: hidden;
+  border-radius: 50%;
+  background: #a8e2e9;
 }
-.brand-icon svg {
-  transform: rotate(8deg);
+.brand-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 .brand-text {
   display: flex;
@@ -327,13 +328,24 @@ img {
   border-radius: 50%;
   background: #f6dfe2;
 }
-.hero-art img {
+.hero-art > .hero-store-image {
   width: 100%;
   height: 485px;
   display: block;
   border-radius: inherit;
   object-fit: cover;
   object-position: center;
+}
+.hero-art > .hero-brand-mark {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 112px;
+  height: 112px;
+  border: 5px solid rgba(255, 255, 255, 0.92);
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 10px 25px rgba(33, 59, 72, 0.15);
 }
 .hero-image-note {
   position: absolute;
@@ -593,6 +605,29 @@ img {
 }
 .product-image img[hidden] {
   display: none;
+}
+.product-image img.product-photo-sheet {
+  width: 200%;
+  height: 200%;
+  max-width: none;
+  inset: auto;
+  object-fit: fill;
+}
+.product-photo-sheet.tile-tl {
+  top: 0;
+  left: 0;
+}
+.product-photo-sheet.tile-tr {
+  top: 0;
+  left: -100%;
+}
+.product-photo-sheet.tile-bl {
+  top: -100%;
+  left: 0;
+}
+.product-photo-sheet.tile-br {
+  top: -100%;
+  left: -100%;
 }
 .product-badge {
   position: absolute;
@@ -1149,14 +1184,10 @@ img {
   font-size: 21px;
 }
 .admin-wordmark-icon {
-  width: 26px;
-  height: 26px;
-  display: grid;
-  place-items: center;
-  border-radius: 7px;
-  color: white;
-  background: #e998aa;
-  font-size: 21px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
 }
 .admin-wordmark small {
   align-self: center;
@@ -1510,7 +1541,7 @@ img {
     font-size: clamp(40px, 6vw, 58px);
   }
   .hero-art,
-  .hero-art img {
+  .hero-art > .hero-store-image {
     min-height: 390px;
     height: 390px;
   }
@@ -1626,7 +1657,7 @@ img {
     margin-top: 30px;
   }
   .hero-art,
-  .hero-art img {
+  .hero-art > .hero-store-image {
     min-height: 345px;
     height: 345px;
   }

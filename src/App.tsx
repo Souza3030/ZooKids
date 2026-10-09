@@ -68,7 +68,8 @@ function ProductImage({ product }: { product: Product }) {
       {product.image && (
         <img
           src={product.image}
-          alt={product.name}
+          alt={`Imagem ilustrativa de ${product.name}`}
+          className={product.imageTile ? `product-photo-sheet tile-${product.imageTile}` : undefined}
           loading="lazy"
           onError={hideBrokenImage}
         />
@@ -210,7 +211,7 @@ function App() {
             aria-label="Zoo Kids, voltar ao início"
           >
             <span className="brand-icon">
-              <Baby size={26} strokeWidth={1.8} />
+              <img src="/zookids-logo.png" alt="" />
             </span>
             <span className="brand-text">
               <strong>zoo kids</strong>
@@ -295,8 +296,15 @@ function App() {
           </div>
           <div className="hero-art">
             <img
+              className="hero-store-image"
               src="/loja-infantil.webp"
               alt="Ilustração fotográfica de uma loja infantil com roupas para bebê"
+            />
+            <img
+              className="hero-brand-mark"
+              src="/zookids-logo.png"
+              alt=""
+              aria-hidden="true"
             />
             <span className="hero-image-note">Imagem ilustrativa da loja</span>
             <div className="hero-sticker">
@@ -494,7 +502,7 @@ function App() {
             <div className="footer-about">
               <a className="brand" href="#inicio">
                 <span className="brand-icon">
-                  <Baby size={26} />
+                  <img src="/zookids-logo.png" alt="" />
                 </span>
                 <span className="brand-text">
                   <strong>zoo kids</strong>

@@ -7,19 +7,22 @@ export type Product = {
   category: Category;
   description: string;
   image?: string;
+  imageTile?: "tl" | "tr" | "bl" | "br";
   emoji: string;
   tone: "peach" | "blue" | "lilac" | "mint" | "butter";
   badge?: string;
 };
 
-// Catálogo inicial demonstrativo. Tamanhos, disponibilidade e preços são confirmados no atendimento.
+// Imagens geradas para ilustrar o catálogo; elas não representam estoque fotografado.
+// Tamanhos, disponibilidade e preços são confirmados no atendimento.
 export const products: Product[] = [
   {
     id: "body-super-bebe",
     name: "Body Super Bebê",
     category: "Bodies",
     description: "Um look divertido para os pequenos heróis.",
-    image: "/fotos/body-super-bebe.jpg",
+    image: "/catalogo/bodies.png",
+    imageTile: "tl",
     emoji: "⭐",
     tone: "blue",
     badge: "Queridinho",
@@ -29,7 +32,8 @@ export const products: Product[] = [
     name: "Body Super Pai",
     category: "Bodies",
     description: "Uma declaração de carinho em forma de body.",
-    image: "/fotos/body-super-pai.jpg",
+    image: "/catalogo/bodies.png",
+    imageTile: "tr",
     emoji: "💗",
     tone: "peach",
   },
@@ -38,7 +42,8 @@ export const products: Product[] = [
     name: "Body Mãe Descolada",
     category: "Bodies",
     description: "Para uma dupla cheia de personalidade.",
-    image: "/fotos/body-mae-descolada.jpg",
+    image: "/catalogo/bodies.png",
+    imageTile: "bl",
     emoji: "💙",
     tone: "blue",
   },
@@ -47,7 +52,8 @@ export const products: Product[] = [
     name: "Kit Ursinhos",
     category: "Kits",
     description: "Dois bodies para variar nos passeios.",
-    image: "/fotos/kit-ursinhos.jpg",
+    image: "/catalogo/conjuntos.png",
+    imageTile: "br",
     emoji: "🐻",
     tone: "butter",
     badge: "Kit",
@@ -57,7 +63,8 @@ export const products: Product[] = [
     name: "Kit Personagens",
     category: "Kits",
     description: "Uma dupla alegre para o dia a dia.",
-    image: "/fotos/kit-personagens.jpg",
+    image: "/catalogo/kits-macacoes.png",
+    imageTile: "tl",
     emoji: "🎨",
     tone: "mint",
     badge: "Kit",
@@ -67,6 +74,8 @@ export const products: Product[] = [
     name: "Body Primeiros Sorrisos",
     category: "Bodies",
     description: "Básico delicado para começar o dia.",
+    image: "/catalogo/bodies.png",
+    imageTile: "br",
     emoji: "☀️",
     tone: "peach",
   },
@@ -75,6 +84,8 @@ export const products: Product[] = [
     name: "Body Pequena Aventura",
     category: "Bodies",
     description: "Para acompanhar novas descobertas.",
+    image: "/catalogo/conjuntos.png",
+    imageTile: "tl",
     emoji: "🌈",
     tone: "lilac",
   },
@@ -83,6 +94,8 @@ export const products: Product[] = [
     name: "Conjunto Dia Feliz",
     category: "Conjuntos",
     description: "Conforto para brincar e explorar.",
+    image: "/catalogo/conjuntos.png",
+    imageTile: "tr",
     emoji: "🌼",
     tone: "butter",
   },
@@ -91,6 +104,8 @@ export const products: Product[] = [
     name: "Conjunto Passeio",
     category: "Conjuntos",
     description: "Um look leve para sair com a família.",
+    image: "/catalogo/conjuntos.png",
+    imageTile: "bl",
     emoji: "🧸",
     tone: "mint",
   },
@@ -99,6 +114,8 @@ export const products: Product[] = [
     name: "Macacão Nuvens",
     category: "Macacões",
     description: "Aconchego para as primeiras aventuras.",
+    image: "/catalogo/kits-macacoes.png",
+    imageTile: "tr",
     emoji: "☁️",
     tone: "blue",
   },
@@ -107,6 +124,8 @@ export const products: Product[] = [
     name: "Macacão Doce Sonho",
     category: "Macacões",
     description: "Um abraço macio para o bebê.",
+    image: "/catalogo/kits-macacoes.png",
+    imageTile: "bl",
     emoji: "🌙",
     tone: "lilac",
   },
@@ -115,6 +134,8 @@ export const products: Product[] = [
     name: "Lacinho Encanto",
     category: "Acessórios",
     description: "Um detalhe especial no look.",
+    image: "/catalogo/kits-macacoes.png",
+    imageTile: "br",
     emoji: "🎀",
     tone: "peach",
   },

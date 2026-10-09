@@ -204,7 +204,7 @@ export default function AdminPanel() {
           <ArrowLeft size={17} /> Voltar para a loja
         </a>
         <span className="admin-wordmark">
-          <span className="admin-wordmark-icon">z</span> Zoo Kids{" "}
+          <img className="admin-wordmark-icon" src="/zookids-logo.png" alt="" /> Zoo Kids{" "}
           <small>Admin</small>
         </span>
       </header>
