@@ -69,7 +69,6 @@ function ProductImage({ product }: { product: Product }) {
         <img
           src={product.image}
           alt={`Imagem ilustrativa de ${product.name}`}
-          className={product.imageTile ? `product-photo-sheet tile-${product.imageTile}` : undefined}
           loading="lazy"
           onError={hideBrokenImage}
         />
@@ -92,6 +91,7 @@ function App() {
   const [customerName, setCustomerName] = useState("");
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [checkoutError, setCheckoutError] = useState("");
+  const [checkoutLink, setCheckoutLink] = useState("");
   const [addedProduct, setAddedProduct] = useState<string | null>(null);
 
   useEffect(() => {
@@ -132,6 +132,7 @@ function App() {
   const itemCount = cart.reduce((total, item) => total + item.quantity, 0);
 
   function addToCart(productId: string) {
+    setCheckoutLink("");
     setCart((current) => {
       const existing = current.find((item) => item.productId === productId);
       if (existing)
@@ -171,12 +172,38 @@ function App() {
     }
     setCheckoutLoading(true);
     setCheckoutError("");
+    setCheckoutLink("");
+    // Abrir durante o clique evita que o navegador bloqueie a nova aba
+    // enquanto o pedido aguarda a gravação no Firestore.
+    let whatsappTab: Window | null = null;
+    try {
+      whatsappTab = window.open("", "_blank");
+    } catch {
+      // O link de confirmação abaixo continua disponível se pop-ups estiverem bloqueados.
+    }
+    if (whatsappTab) {
+      try {
+        whatsappTab.opener = null;
+        whatsappTab.document.title = "Registrando pedido | Zoo Kids";
+        whatsappTab.document.body.textContent = "Registrando seu pedido...";
+      } catch {
+        // Alguns navegadores restringem a edição da aba antes da navegação.
+      }
+    }
     try {
       const { placeOrder } = await import("./checkout");
       const orderId = await placeOrder(name, cartItems);
+      const whatsappUrl = orderWhatsappUrl(orderId, name, cartItems);
+      setCheckoutLink(whatsappUrl);
       setCart([]);
-      window.location.assign(orderWhatsappUrl(orderId, name, cartItems));
+      try {
+        if (whatsappTab && !whatsappTab.closed)
+          whatsappTab.location.replace(whatsappUrl);
+      } catch {
+        whatsappTab?.close();
+      }
     } catch {
+      whatsappTab?.close();
       setCheckoutError(
         "Não foi possível registrar o pedido. Verifique a conexão e tente novamente.",
       );
@@ -603,15 +630,35 @@ function App() {
                 <span>
                   <ShoppingBag size={38} />
                 </span>
-                <h3>Seu carrinho está vazio</h3>
-                <p>Que tal escolher uma roupinha para começar?</p>
-                <button
-                  className="button button-dark"
-                  type="button"
-                  onClick={() => setCartOpen(false)}
-                >
-                  Ver catálogo <ArrowRight size={18} />
-                </button>
+                {checkoutLink ? (
+                  <>
+                    <h3>Pedido registrado!</h3>
+                    <p>
+                      O WhatsApp abriu em outra aba. Se não apareceu, use o
+                      botão abaixo para continuar o atendimento.
+                    </p>
+                    <a
+                      className="button button-dark"
+                      href={checkoutLink}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      Abrir WhatsApp <ArrowUpRight size={18} />
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <h3>Seu carrinho está vazio</h3>
+                    <p>Que tal escolher uma roupinha para começar?</p>
+                    <button
+                      className="button button-dark"
+                      type="button"
+                      onClick={() => setCartOpen(false)}
+                    >
+                      Ver catálogo <ArrowRight size={18} />
+                    </button>
+                  </>
+                )}
               </div>
             ) : (
               <>
@@ -623,7 +670,11 @@ function App() {
                     return (
                       <div className="cart-item" key={item.id}>
                         <div className={`cart-thumb tone-${product.tone}`}>
-                          {product.emoji}
+                          {product.image ? (
+                            <img src={product.image} alt="" loading="lazy" />
+                          ) : (
+                            product.emoji
+                          )}
                         </div>
                         <div className="cart-item-info">
                           <small>{product.category}</small>
@@ -669,7 +720,8 @@ function App() {
                   <div className="checkout-note">
                     <ShieldCheck size={19} />
                     <p>
-                      Seu pedido será registrado antes de abrir o WhatsApp.
+                      Seu pedido será registrado antes de abrir o WhatsApp em
+                      outra aba.
                       Valores e tamanhos serão confirmados no atendimento.
                     </p>
                   </div>

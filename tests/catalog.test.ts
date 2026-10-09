@@ -6,6 +6,7 @@ import { products } from "../src/catalog";
 describe("imagens do catálogo", () => {
   it("possui uma imagem disponível para cada produto", () => {
     expect(products).toHaveLength(12);
+    expect(new Set(products.map((product) => product.image)).size).toBe(12);
     for (const product of products) {
       expect(product.image, product.name).toBeTruthy();
       expect(

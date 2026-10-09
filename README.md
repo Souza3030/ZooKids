@@ -33,13 +33,13 @@ A configuração pública do aplicativo web do projeto `zookids-95d7f` já está
 
 Se o botão **Enviar verificação** falhar, o painel mostra agora o código retornado pelo Firebase. Confira também Spam/Lixo eletrônico. Para `auth/too-many-requests`, aguarde antes de tentar de novo; para `auth/unauthorized-continue-uri`, adicione o domínio em Authentication → Configurações → Domínios autorizados. Se persistir, informe o código mostrado na tela, sem compartilhar senha ou link de verificação.
 
-O fluxo da compra é: carrinho no navegador → registro do pedido no Firestore → WhatsApp `+55 81 99371-2933` com o número e os itens do pedido. O painel `/#admin` mostra pedidos em tempo real e permite mudar o status. O site não processa pagamento. Tamanhos, disponibilidade e valores são combinados no atendimento.
+O fluxo da compra é: carrinho no navegador → registro do pedido no Firestore → WhatsApp `+55 81 99371-2933` em **outra aba**, com o número e os itens do pedido. Se o navegador bloquear a nova aba, o carrinho mostra um link para abrir o WhatsApp. O painel `/#admin` mostra pedidos em tempo real e permite mudar o status. O site não processa pagamento. Tamanhos, disponibilidade e valores são combinados no atendimento.
 
 ## Catálogo e imagens
 
-Os 12 produtos em `src/catalog.ts` são um catálogo inicial **ilustrativo**. Todas as imagens de peças em `public/catalogo` foram geradas a partir do estilo da referência enviada; elas **não são fotos do estoque real**. A marca em `public/zookids-logo.png` foi recriada a partir da imagem da Zoo Kids enviada no chat. A imagem da página inicial em `public/loja-infantil.webp` representa uma loja fictícia e também está identificada como ilustrativa.
+Os 12 produtos em `src/catalog.ts` são um catálogo inicial **ilustrativo**. Cada produto tem sua própria imagem WebP em `public/catalogo`, gerada a partir do estilo da referência enviada; elas **não são fotos do estoque real**. A marca em `public/zookids-logo.png` foi recriada a partir da imagem da Zoo Kids enviada no chat. A imagem da página inicial em `public/loja-infantil.webp` representa uma loja fictícia e também está identificada como ilustrativa.
 
-Antes de divulgar ou aceitar pedidos, confirme nomes, estampas, tamanhos, preços e disponibilidade com o estoque. Para trocar uma imagem gerada por uma foto real, coloque a foto em `public/fotos`, altere o campo `image` do produto em `src/catalog.ts` e remova o campo `imageTile` desse produto.
+Antes de divulgar ou aceitar pedidos, confirme nomes, estampas, tamanhos, preços e disponibilidade com o estoque. Para trocar uma imagem gerada por uma foto real, coloque a foto em `public/fotos` e altere o campo `image` do produto em `src/catalog.ts`.
 
 ## Segurança
 
